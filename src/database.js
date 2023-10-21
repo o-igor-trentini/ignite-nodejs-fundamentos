@@ -23,8 +23,16 @@ export class Database {
         return this.#database[table].findIndex((row) => row.id === id);
     }
 
-    select(table) {
-        return this.#database[table] ?? [];
+    select(table, search) {
+        const data = this.#database[table] ?? [];
+
+        if (!search) return data;
+
+        console.clear()
+
+        return data.filter((row) =>
+            Object.entries(search).some(([key, value]) => row[key].toLowerCase().includes(value.toLowerCase()))
+        );
     }
 
     insert(table, data) {
